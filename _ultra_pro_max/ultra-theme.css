@@ -1,0 +1,22 @@
+:root{
+ --primary:#1e2a78;
+ --accent:#6c4cff;
+ --bg:#f5f7fc;
+ --card:#ffffff;
+ --radius:16px;
+ --shadow:0 10px 28px rgba(0,0,0,.08);
+}
+
+.card, .panel, .box{
+ background:var(--card);
+ border-radius:var(--radius);
+ box-shadow:var(--shadow);
+}
+
+button.primary{
+ background:var(--accent);
+ color:white;
+ border:none;
+ border-radius:12px;
+ padding:10px 16px;
+}

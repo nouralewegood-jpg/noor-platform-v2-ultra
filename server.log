@@ -1,0 +1,11 @@
+
+> noor-platform-deployed@1.0.0 start /home/ubuntu/noor_platform
+> NODE_ENV=production node dist/index.js
+
+[OAuth] Initialized with baseURL: 
+[OAuth] ERROR: OAUTH_SERVER_URL is not configured! Set OAUTH_SERVER_URL environment variable.
+performance layer ready
+UX enhancements ready
+Monitoring active
+ULTRA PRO MAX ACTIVE
+Server running on http://localhost:5000/
