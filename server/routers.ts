@@ -5,6 +5,7 @@ import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
 import { accountLinkingRouter } from "./routers/accountLinkingRouter";
 import { aiRouter } from "./routers/aiRouter";
 import { publishingRouter } from "./routers/publishingRouter";
+import { notificationRouter } from "./routers/notificationRouter";
 
 export const appRouter = router({
   system: systemRouter,
@@ -21,6 +22,7 @@ export const appRouter = router({
   accountLinking: accountLinkingRouter,
   ai: aiRouter,
   publishing: publishingRouter,
+  notification: notificationRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,4 +1,5 @@
 import { invokeLLM } from "../_core/llm";
+import { sendContentGenerationNotification } from "./reportsAndNotifications";
 
 /**
  * محتوى تسويقي متخصص في الصيانة والديكور والرخام
@@ -114,6 +115,13 @@ export class AIContentGenerator {
           console.error(`[AIContentGenerator] Error generating ${contentType}:`, error);
         }
       }
+    }
+
+    // إرسال إشعار عند الانتهاء من توليد المحتوى الشهري
+    if (contents.length > 0) {
+      const types = [...new Set(contents.map(c => c.contentType))];
+      const platforms = [...new Set(contents.flatMap(c => c.platforms))];
+      await sendContentGenerationNotification(contents.length, types, platforms);
     }
 
     return contents;

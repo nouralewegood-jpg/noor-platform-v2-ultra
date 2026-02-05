@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Sparkles, Image, Share2, TrendingUp, Users, Eye, Heart, MessageSquare, Share } from "lucide-react";
+import { Sparkles, Image, Share2, TrendingUp, Users, Eye, Heart, MessageSquare, Share, FileText, Send } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 // بيانات وهمية للإحصائيات
 const contentStats = [
@@ -47,16 +49,46 @@ const recentContent = [
 
 export default function DashboardMain() {
   const { user } = useAuth();
+  const sendReportMutation = trpc.notification.sendWeeklyReport.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success("تم إرسال التقرير الأسبوعي إلى بريدك الإلكتروني بنجاح");
+      } else {
+        toast.error("فشل إرسال التقرير: " + (data.error || "خطأ غير معروف"));
+      }
+    },
+    onError: (error) => {
+      toast.error("حدث خطأ أثناء إرسال التقرير: " + error.message);
+    },
+  });
+
+  const handleSendReport = () => {
+    sendReportMutation.mutate({});
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
       <div className="max-w-7xl mx-auto">
         {/* رأس الصفحة */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">مرحباً بك في منصة نور الذكية</h1>
-          <p className="text-gray-600">
-            منصة متكاملة لإدارة وأتمتة التسويق الرقمي المتخصصة في الصيانة العامة والديكور
-          </p>
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">مرحباً بك في منصة نور الذكية</h1>
+            <p className="text-gray-600">
+              منصة متكاملة لإدارة وأتمتة التسويق الرقمي المتخصصة في الصيانة العامة والديكور
+            </p>
+          </div>
+          <Button 
+            onClick={handleSendReport} 
+            disabled={sendReportMutation.isPending}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-2"
+          >
+            {sendReportMutation.isPending ? (
+              <span className="animate-spin mr-2">⏳</span>
+            ) : (
+              <FileText className="w-4 h-4" />
+            )}
+            إرسال التقرير الأسبوعي
+          </Button>
         </div>
 
         {/* بطاقات الإحصائيات الرئيسية */}
